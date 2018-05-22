@@ -6,13 +6,7 @@ const TrackModel = require('./models/track');
 
 const sequelize = new Sequelize('heroku_eb93149a73ffa65', 'be42fad5271b30', '794a07be', {
   host: 'us-cdbr-iron-east-04.cleardb.net',
-  dialect: 'mysql',
-  pool: {
-    max: 10,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  }
+  dialect: 'mysql'
 });
 
 const Album = AlbumModel(sequelize, Sequelize);
