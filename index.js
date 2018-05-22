@@ -170,6 +170,7 @@ dz.getFrenchChart(deezerChartId).then(function(album) {
 
 // root
 app.get('/', (req, res) => {
+  console.log("Salut !");
   res.send('Hello World !');
 });
 
