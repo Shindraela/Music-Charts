@@ -168,6 +168,10 @@ dz.getFrenchChart(deezerChartId).then(function(album) {
   }
 });
 
+// root
+app.get('/', (req, res) => {
+  res.send('Hello World !');
+});
 
 // get all artists
 app.get('/artists/:name', (req, res) => {
