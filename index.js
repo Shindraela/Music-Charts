@@ -35,6 +35,7 @@ spotifyApi.clientCredentialsGrant().then(
     // Save the access token so that it's used in future calls
     spotifyApi.setAccessToken(data.body['access_token']);
 
+    // Then, call APIs for sending data in DB
     sendSpotifyData();
     sendDeezerData();
   },
@@ -46,7 +47,6 @@ spotifyApi.clientCredentialsGrant().then(
   }
 );
 
-// spotifyApi.setAccessToken('BQBSkrolgsn4JhO5W1GYfWfs29XqMITNIEz0kID8wEnL5HWQ-xqUIExLIT1PT9o_F9Vd1GS3AJB_x4DxjRI');
 
 // API ENDPOINTS :
 function sendSpotifyData() {
@@ -96,16 +96,17 @@ function sendSpotifyData() {
                       artist: trackArtist,
                       album: trackAlbum
                     }
-                  }).then(function(result) {
-                      var track = result[0], // the instance of the track
-                        created = result[1]; // boolean stating if it was created or not
+                  })
+                  // .then(function(result) {
+                  //   var track = result[0], // the instance of the track
+                  //     created = result[1]; // boolean stating if it was created or not
 
-                      if (created) {
-                        console.log('Track already exists');
-                      }
+                  //   if (created) {
+                  //     console.log('Track already exists');
+                  //   }
 
-                      console.log('Created track...');
-                    });
+                  //   console.log('Created track...');
+                  // });
                 }
               }
             }
@@ -157,16 +158,8 @@ function sendDeezerData() {
               artist: trackArtist,
               album: trackAlbum
             }
-          }).then(function(result) {
-              var track = result[0], // the instance of the track
-                created = result[1]; // boolean stating if it was created or not
+          });
 
-              if (created) {
-                console.log('Track already exists');
-              }
-
-              console.log('Created track...');
-            });
         });
       }
     }
