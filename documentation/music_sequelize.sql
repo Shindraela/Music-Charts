@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.4
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
--- Client :  127.0.0.1
--- Généré le :  Sam 26 Mai 2018 à 12:30
--- Version du serveur :  5.7.14
--- Version de PHP :  5.6.25
+-- Hôte : 127.0.0.1:3306
+-- Généré le :  sam. 26 mai 2018 à 12:50
+-- Version du serveur :  5.7.19
+-- Version de PHP :  7.0.23
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -26,26 +28,16 @@ SET time_zone = "+00:00";
 -- Structure de la table `albums`
 --
 
-CREATE TABLE `albums` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `albums`;
+CREATE TABLE IF NOT EXISTS `albums` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `genre` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `idRefArtist` int(11) DEFAULT NULL,
   `topAlbumBoolean` int(11) DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp DEFAULT
+  `updatedAt` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Contenu de la table `albums`
---
-
-INSERT INTO `albums` (`id`, `name`, `genre`, `idRefArtist`, `topAlbumBoolean`, `createdAt`, `updatedAt`) VALUES
-(1, 'album1', 'genre1', 10, 0, '2018-05-20 14:03:17', '2018-05-20 14:03:17'),
-(2, 'album2', 'genre2', 9, 1, '2018-05-20 14:03:17', '2018-05-20 14:03:17'),
-(3, 'album3', 'genre3', 8, 0, '2018-05-20 14:03:17', '2018-05-20 14:03:17'),
-(4, 'album4', 'genre4', 7, 1, '2018-05-20 14:03:17', '2018-05-20 14:03:17'),
-(5, 'album5', 'genre5', 6, 0, '2018-05-20 14:03:17', '2018-05-20 14:03:17');
 
 -- --------------------------------------------------------
 
@@ -53,21 +45,15 @@ INSERT INTO `albums` (`id`, `name`, `genre`, `idRefArtist`, `topAlbumBoolean`, `
 -- Structure de la table `artists`
 --
 
-CREATE TABLE `artists` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `artists`;
+CREATE TABLE IF NOT EXISTS `artists` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `genre` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp DEFAULT 
+  `updatedAt` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Contenu de la table `artists`
---
-
-INSERT INTO `artists` (`id`, `name`, `genre`, `createdAt`, `updatedAt`) VALUES
-(1, 'G-Eazy', 'hip-hop', '2018-05-25 18:29:28', '2018-05-25 18:29:28'),
-(2, 'Kendrick Lamar', 'hip-hop', '2018-05-25 18:29:56', '2018-05-25 18:29:56');
 
 -- --------------------------------------------------------
 
@@ -75,11 +61,13 @@ INSERT INTO `artists` (`id`, `name`, `genre`, `createdAt`, `updatedAt`) VALUES
 -- Structure de la table `charts`
 --
 
-CREATE TABLE `charts` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `charts`;
+CREATE TABLE IF NOT EXISTS `charts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `genre` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp DEFAULT
+  `updatedAt` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -88,11 +76,14 @@ CREATE TABLE `charts` (
 -- Structure de la table `chart_tracks`
 --
 
-CREATE TABLE `chart_tracks` (
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL,
+DROP TABLE IF EXISTS `chart_tracks`;
+CREATE TABLE IF NOT EXISTS `chart_tracks` (
+  `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` datetime DEFAULT NULL,
   `chartId` int(11) NOT NULL,
-  `trackId` int(11) NOT NULL
+  `trackId` int(11) NOT NULL,
+  PRIMARY KEY (`chartId`,`trackId`),
+  KEY `trackId` (`trackId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -101,176 +92,112 @@ CREATE TABLE `chart_tracks` (
 -- Structure de la table `tracks`
 --
 
-CREATE TABLE `tracks` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `tracks`;
+CREATE TABLE IF NOT EXISTS `tracks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `artist` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `album` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `idRefChart` int(11) DEFAULT NULL,
   `topArtistBoolean` int(11) DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp DEFAULT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `updatedAt` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Contenu de la table `tracks`
+-- Déchargement des données de la table `tracks`
 --
 
-INSERT INTO `tracks` (`id`, `title`, `artist`, `album`, `idRefChart`, `topArtistBoolean`, `createdAt`, `updatedAt`) VALUES
-(1, 'La même', 'Maître Gims', 'Ceinture noire', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(2, 'Habitué', 'Dosseh', 'Habitué', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(3, 'Djadja', 'Aya Nakamura', 'Djadja', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(4, 'Mafiosa (feat. Caroliina)', 'Lartiste', 'Grandestino', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(5, 'Va Bene', 'L\'Algérino', 'Taxi 5 (Bande originale inspirée du film)', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(6, 'X', 'Nicky Jam', 'X', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(7, 'Ipséité', 'Damso', 'Ipséité', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(8, 'Bob Marley', 'Dadju', 'Gentleman 2.0', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(9, 'Flames', 'David Guetta', 'Flames', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(10, 'Leave a Light On', 'Tom Walker', 'Leave a Light On', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(11, 'Un Poco', 'Ninho', 'M.I.L.S 2.0', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(12, 'God\'s Plan', 'Drake', 'Scary Hours', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(13, 'One Kiss', 'Calvin Harris', 'One Kiss', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(14, 'Santana', 'Alonzo', 'Taxi 5 (Bande originale inspirée du film)', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(15, 'Bella ciao (feat. Maître Gims, Vitaa, Dadju & Slimane)', 'Naestro', 'Bella ciao (feat. Maître Gims, Vitaa, Dadju & Slimane)', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(16, 'Désaccordé', 'Vald', 'XEU', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(17, 'FRIENDS', 'Marshmello', 'FRIENDS', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(18, 'Mi Gna (Maître Gims Remix)', 'Maître Gims', 'Mi Gna (Maître Gims Remix)', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(19, 'Bella Ciao (Bonus track)', 'Rémy', 'C\'est Rémy', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(20, 'Hit Sale (feat. Roméo Elvis)', 'Therapie TAXI', 'Hit Sale', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(21, 'Casa de papel', 'SKG', 'Casa de papel', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(22, 'Reine', 'Dadju', 'Gentleman 2.0', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(23, 'These Days (feat. Jess Glynne, Macklemore & Dan Caplen)', 'Rudimental', 'These Days (feat. Jess Glynne, Macklemore & Dan Caplen)', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(24, 'La pluie (feat. Stromae)', 'Orelsan', 'La fête est finie', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(25, 'Country', 'Niska', 'Game Over', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(26, 'Bad boy', 'Marwa Loud', 'Loud', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(27, 'Fallait pas', 'Marwa Loud', 'Fallait pas', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(28, 'Favela', 'Naps', 'À l\'instinct', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(29, 'M.I.L.S 2.0', 'Ninho', 'M.I.L.S 2.0', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(30, 'Échame La Culpa', 'Luis Fonsi', 'Échame La Culpa', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(31, 'Vai et viens', 'Lartiste', 'Vai et viens', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(32, 'Breathe', 'Feder', 'Breathe', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(33, 'Havana', 'Camila Cabello', 'Camila', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(34, 'Whatever It Takes', 'Imagine Dragons', 'Evolve', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(35, 'No Tears Left To Cry', 'Ariana Grande', 'No Tears Left To Cry', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(36, 'Caméléon', 'Maître Gims', 'Ceinture noire', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(37, 'Shape of You', 'Ed Sheeran', 'Shape of You', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(38, 'Juste pour voir', 'S.Pri Noir', 'Masque blanc', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(39, 'Like I Do', 'David Guetta', 'Like I Do', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(40, 'Pourquoi tu forces', 'Dj Erise', 'Pourquoi tu forces', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(41, 'Remind Me to Forget', 'Kygo', 'Remind Me to Forget', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(42, 'Katchi (Ofenbach vs. Nick Waterhouse)', 'Ofenbach', 'Katchi (Ofenbach vs. Nick Waterhouse)', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(43, 'Lundi', 'Sofiane', 'Affranchis', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(44, 'Complètemment sonné', 'KeBlack', 'Complètemment sonné', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(45, 'Feel It Still', 'Portugal. The Man', 'Woodstock', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(46, 'Magenta Riddim', 'DJ Snake', 'Magenta Riddim', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(47, 'Guerilla', 'Soolking', 'Guerilla', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(48, 'Bum Bum Tam Tam', 'MC Fioti', 'Bum Bum Tam Tam', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(49, 'Nice For What', 'Drake', 'Nice For What', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(50, 'Billet', 'Marwa Loud', 'Loud', NULL, NULL, '2018-05-21 21:12:27', '2018-05-21 21:12:27'),
-(51, 'Mafiosa (feat. Caroliina)', 'Caroliina', 'Grandestino', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(52, 'One Kiss (with Dua Lipa)', 'Dua Lipa', 'One Kiss (with Dua Lipa)', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(53, 'X', 'J Balvin', 'X', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(54, 'Va Bene', 'Kore', 'Va Bene (Extrait de la BOF de "Taxi 5")', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(55, 'La même', 'Vianney', 'Ceinture noire', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(56, 'Bella ciao - HUGEL Remix', 'HUGEL', 'Bella ciao (HUGEL Remix)', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(57, 'FRIENDS', 'Anne-Marie', 'FRIENDS', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(58, 'Hit Sale (feat. Roméo Elvis)', 'Roméo Elvis', 'Hit Sale', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(59, 'Bella ciao (feat. Maître Gims, Vitaa, Dadju & Slimane)', 'Vitaa', 'Bella ciao (feat. Maître Gims, Vitaa, Dadju & Slimane)', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(60, 'These Days (feat. Jess Glynne, Macklemore & Dan Caplen)', 'Dan Caplen', 'These Days (feat. Jess Glynne, Macklemore & Dan Caplen)', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(61, 'Flames', 'Sia', 'Flames', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(62, 'Nevermind', 'Dennis Lloyd', 'Nevermind', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(63, 'Fallait pas', 'Marwa Loud', 'Loud', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(64, 'Mad Love', 'Becky G', 'Mad Love', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(65, 'I Like It', 'J Balvin', 'Invasion of Privacy', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(66, 'Vai et viens', 'Lartiste', 'Grandestino', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(67, 'This Is America', 'Childish Gambino', 'This Is America', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(68, 'Like I Do', 'Brooks', 'Like I Do', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(69, 'The Middle', 'Grey', 'The Middle', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(70, 'Better Now', 'Post Malone', 'beerbongs & bentleys', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(71, 'La pluie (feat. Stromae)', 'Stromae', 'La fête est finie', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(72, 'Remind Me to Forget', 'Miguel', 'Kids in Love', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(73, 'Arrivant', 'Timal', 'Trop chaud', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(74, 'Mi Gna - Maître Gims Remix', 'Hayko', 'Ceinture noire', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(75, 'Bella Ciao - Bonus track', 'Rémy', 'C\'est Rémy', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(76, 'Fendi', 'Ninho', 'M.I.L.S 2.0', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(77, 'Psycho', 'Ty Dolla $ign', 'beerbongs & bentleys', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(78, 'Favela', 'Soolking', 'À l\'instinct', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(79, 'Coffrer', 'Ninho', 'M.I.L.S 2.0', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(80, 'Crazy', 'Zonderling', 'Crazy', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(81, 'Juste pour voir', 'Nekfeu', 'Masque blanc', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(82, 'Call Out My Name', 'The Weeknd', 'My Dear Melancholy,', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(83, 'Love Lies (with Normani)', 'Normani', 'Love Lies (with Normani)', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(84, 'Breathe', 'Ina Wroldsen', 'Breathe', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(85, 'Arrivant', 'Timal', 'Arrivant', NULL, NULL, '2018-05-23 19:08:30', '2018-05-23 19:08:30'),
-(86, 'Mad Love', 'Sean Paul', 'Mad Love', NULL, NULL, '2018-05-23 19:08:30', '2018-05-23 19:08:30'),
-(87, 'J\'souris', 'Djadja & Dinaz', 'Le revers de la médaille', NULL, NULL, '2018-05-23 19:08:30', '2018-05-23 19:08:30'),
-(88, 'Wolves', 'Selena Gomez', 'Wolves', NULL, NULL, '2018-05-23 19:08:30', '2018-05-23 19:08:30'),
-(89, 'Bandolero', 'Moha La Squale', 'Bandolero', NULL, NULL, '2018-05-25 20:28:51', '2018-05-25 20:28:51'),
-(90, 'Complètement sonné', 'KeBlack', 'Appartement 105', NULL, NULL, '2018-05-25 20:28:51', '2018-05-25 20:28:51'),
-(91, 'Paradise', 'Lefa', '3 du mat', NULL, NULL, '2018-05-25 20:28:51', '2018-05-25 20:28:51'),
-(92, 'Tierquar', 'RK', 'Tierquar', NULL, NULL, '2018-05-25 20:28:51', '2018-05-25 20:28:51');
+INSERT INTO `tracks` (`id`, `title`, `artist`, `album`, `topArtistBoolean`, `createdAt`, `updatedAt`) VALUES
+(1, 'Habitué', 'Dosseh', 'Habitué', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(2, 'Ipséité', 'Damso', 'Ipséité', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(3, 'Mafiosa (feat. Caroliina)', 'Caroliina', 'Grandestino', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(4, 'Djadja', 'Aya Nakamura', 'Djadja', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(5, 'One Kiss (with Dua Lipa)', 'Dua Lipa', 'One Kiss (with Dua Lipa)', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(6, 'X', 'J Balvin', 'X', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(7, 'La même', 'Vianney', 'Ceinture noire', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(8, 'Va Bene', 'Kore', 'Va Bene (Extrait de la BOF de \"Taxi 5\")', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(9, 'Un Poco', 'Ninho', 'M.I.L.S 2.0', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(10, 'God\'s Plan', 'Drake', 'Scary Hours', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(11, 'Désaccordé', 'Vald', 'XEU', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(12, 'Bob Marley', 'Dadju', 'Gentleman 2.0', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(13, 'FRIENDS', 'Anne-Marie', 'FRIENDS', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(14, 'Bella ciao - HUGEL Remix', 'HUGEL', 'Bella ciao (HUGEL Remix)', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(15, 'Hit Sale (feat. Roméo Elvis)', 'Roméo Elvis', 'Hit Sale', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(16, 'Bella ciao (feat. Maître Gims, Vitaa, Dadju & Slimane)', 'Vitaa', 'Bella ciao (feat. Maître Gims, Vitaa, Dadju & Slimane)', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(17, 'M.I.L.S 2.0', 'Ninho', 'M.I.L.S 2.0', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(18, 'Flames', 'Sia', 'Flames', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(19, 'These Days (feat. Jess Glynne, Macklemore & Dan Caplen)', 'Dan Caplen', 'These Days (feat. Jess Glynne, Macklemore & Dan Caplen)', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(20, 'Nevermind', 'Dennis Lloyd', 'Nevermind', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(21, 'Santana', 'Alonzo', 'Taxi 5 (Bande originale inspirée du film)', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(22, 'No Tears Left To Cry', 'Ariana Grande', 'No Tears Left To Cry', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(23, 'Fallait pas', 'Marwa Loud', 'Loud', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(24, 'Mad Love', 'Becky G', 'Mad Love', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(25, 'Country', 'Niska', 'Game Over', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(26, 'I Like It', 'J Balvin', 'Invasion of Privacy', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(27, 'Nice For What', 'Drake', 'Nice For What', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(28, 'Vai et viens', 'Lartiste', 'Grandestino', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(29, 'The Middle', 'Grey', 'The Middle', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(30, 'Like I Do', 'Brooks', 'Like I Do', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(31, 'This Is America', 'Childish Gambino', 'This Is America', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(32, 'Magenta Riddim', 'DJ Snake', 'Magenta Riddim', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(33, 'Better Now', 'Post Malone', 'beerbongs & bentleys', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(34, 'Lundi', 'Sofiane', 'Affranchis', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(35, 'Remind Me to Forget', 'Miguel', 'Kids in Love', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(36, 'Bella Ciao - Bonus track', 'Rémy', 'C\'est Rémy', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(37, 'La pluie (feat. Stromae)', 'Stromae', 'La fête est finie', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(38, 'Juste pour voir', 'Nekfeu', 'Masque blanc', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(39, 'Favela', 'Soolking', 'À l\'instinct', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(40, 'Arrivant', 'Timal', 'Trop chaud', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(41, 'Guerilla', 'Soolking', 'Guerilla', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(42, 'Fendi', 'Ninho', 'M.I.L.S 2.0', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(43, 'Mi Gna - Maître Gims Remix', 'Hayko', 'Ceinture noire', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(44, 'Coffrer', 'Ninho', 'M.I.L.S 2.0', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(45, 'Psycho (feat. Ty Dolla $ign)', 'Ty Dolla $ign', 'beerbongs & bentleys', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(46, 'Leave a Light On', 'Tom Walker', 'Leave a Light On', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(47, 'Breathe', 'Ina Wroldsen', 'Breathe', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(48, 'Bandolero', 'Moha La Squale', 'Bandolero', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(49, 'Love Lies (with Normani)', 'Normani', 'Love Lies (with Normani)', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(50, 'Complètement sonné', 'KeBlack', 'Appartement 105', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(51, 'La même', 'Maître Gims', 'Ceinture noire', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(52, 'Mafiosa (feat. Caroliina)', 'Lartiste', 'Grandestino', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(53, 'Bella ciao (feat. Maître Gims, Vitaa, Dadju & Slimane)', 'Naestro', 'Bella ciao (feat. Maître Gims, Vitaa, Dadju & Slimane)', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(54, 'Va Bene', 'L\'Algérino', 'Taxi 5 (Bande originale inspirée du film)', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(55, 'X', 'Nicky Jam', 'X', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(56, 'One Kiss', 'Calvin Harris', 'One Kiss', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(57, 'Flames', 'David Guetta', 'Flames', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(58, 'Casa de papel', 'SKG', 'Casa de papel', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(59, 'Bella Ciao (Bonus track)', 'Rémy', 'C\'est Rémy', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(60, 'FRIENDS', 'Marshmello', 'FRIENDS', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(61, 'Hit Sale (feat. Roméo Elvis)', 'Therapie TAXI', 'Hit Sale', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(62, 'Mi Gna (Maître Gims Remix)', 'Maître Gims', 'Mi Gna (Maître Gims Remix)', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(63, 'Favela', 'Naps', 'À l\'instinct', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(64, 'These Days (feat. Jess Glynne, Macklemore & Dan Caplen)', 'Rudimental', 'These Days (feat. Jess Glynne, Macklemore & Dan Caplen)', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(65, 'La pluie (feat. Stromae)', 'Orelsan', 'La fête est finie', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(66, 'Vai et viens', 'Lartiste', 'Vai et viens', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(67, 'Juste pour voir', 'S.Pri Noir', 'Masque blanc', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(68, 'Reine', 'Dadju', 'Gentleman 2.0', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(69, 'C\'était pas gagné', 'Moha La Squale', 'Bendero', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(70, 'Complètemment sonné', 'KeBlack', 'Complètemment sonné', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(71, 'Pourquoi tu forces', 'Dj Erise', 'Pourquoi tu forces', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(72, 'Échame La Culpa', 'Luis Fonsi', 'Échame La Culpa', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(73, 'Bad boy', 'Marwa Loud', 'Loud', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(74, 'Fallait pas', 'Marwa Loud', 'Fallait pas', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(75, 'Havana', 'Camila Cabello', 'Camila', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(76, 'Prologue', 'Moha La Squale', 'Bendero', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(77, 'La BP', 'Moha La Squale', 'La BP', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(78, 'Bendero', 'Moha La Squale', 'Bendero', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(79, 'Luna', 'Moha La Squale', 'Bendero', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(80, 'Breathe', 'Feder', 'Breathe', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(81, 'Remind Me to Forget', 'Kygo', 'Remind Me to Forget', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(82, 'Caméléon', 'Maître Gims', 'Ceinture noire', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(83, 'Arrivant', 'Timal', 'Arrivant', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(84, 'Snow', 'Moha La Squale', 'Bendero', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(85, 'Like I Do', 'David Guetta', 'Like I Do', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43'),
+(86, 'Bonnie & Clyde', 'Moha La Squale', 'Bendero', NULL, '2018-05-26 12:01:43', '2018-05-26 12:01:43');
 
 --
--- Index pour les tables exportées
---
-
---
--- Index pour la table `albums`
---
-ALTER TABLE `albums`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `artists`
---
-ALTER TABLE `artists`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `charts`
---
-ALTER TABLE `charts`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `chart_tracks`
---
-ALTER TABLE `chart_tracks`
-  ADD PRIMARY KEY (`chartId`,`trackId`),
-  ADD KEY `trackId` (`trackId`);
-
---
--- Index pour la table `tracks`
---
-ALTER TABLE `tracks`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT pour les tables exportées
---
-
---
--- AUTO_INCREMENT pour la table `albums`
---
-ALTER TABLE `albums`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT pour la table `artists`
---
-ALTER TABLE `artists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT pour la table `charts`
---
-ALTER TABLE `charts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT pour la table `tracks`
---
-ALTER TABLE `tracks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
---
--- Contraintes pour les tables exportées
+-- Contraintes pour les tables déchargées
 --
 
 --
@@ -279,6 +206,7 @@ ALTER TABLE `tracks`
 ALTER TABLE `chart_tracks`
   ADD CONSTRAINT `chart_tracks_ibfk_1` FOREIGN KEY (`chartId`) REFERENCES `charts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `chart_tracks_ibfk_2` FOREIGN KEY (`trackId`) REFERENCES `tracks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
