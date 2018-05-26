@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.4
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
--- Client :  127.0.0.1
--- Généré le :  Sam 26 Mai 2018 à 12:30
--- Version du serveur :  5.7.14
--- Version de PHP :  5.6.25
+-- Hôte : 127.0.0.1:3306
+-- Généré le :  ven. 25 mai 2018 à 18:30
+-- Version du serveur :  5.7.19
+-- Version de PHP :  7.0.23
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -26,18 +28,18 @@ SET time_zone = "+00:00";
 -- Structure de la table `albums`
 --
 
-CREATE TABLE `albums` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `albums`;
+CREATE TABLE IF NOT EXISTS `albums` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `genre` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `idRefArtist` int(11) DEFAULT NULL,
   `topAlbumBoolean` int(11) DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp DEFAULT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Contenu de la table `albums`
+-- Déchargement des données de la table `albums`
 --
 
 INSERT INTO `albums` (`id`, `name`, `genre`, `idRefArtist`, `topAlbumBoolean`, `createdAt`, `updatedAt`) VALUES
@@ -53,16 +55,18 @@ INSERT INTO `albums` (`id`, `name`, `genre`, `idRefArtist`, `topAlbumBoolean`, `
 -- Structure de la table `artists`
 --
 
-CREATE TABLE `artists` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `artists`;
+CREATE TABLE IF NOT EXISTS `artists` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `genre` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp DEFAULT 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Contenu de la table `artists`
+-- Déchargement des données de la table `artists`
 --
 
 INSERT INTO `artists` (`id`, `name`, `genre`, `createdAt`, `updatedAt`) VALUES
@@ -75,11 +79,13 @@ INSERT INTO `artists` (`id`, `name`, `genre`, `createdAt`, `updatedAt`) VALUES
 -- Structure de la table `charts`
 --
 
-CREATE TABLE `charts` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `charts`;
+CREATE TABLE IF NOT EXISTS `charts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `genre` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp DEFAULT
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -88,11 +94,14 @@ CREATE TABLE `charts` (
 -- Structure de la table `chart_tracks`
 --
 
-CREATE TABLE `chart_tracks` (
+DROP TABLE IF EXISTS `chart_tracks`;
+CREATE TABLE IF NOT EXISTS `chart_tracks` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   `chartId` int(11) NOT NULL,
-  `trackId` int(11) NOT NULL
+  `trackId` int(11) NOT NULL,
+  PRIMARY KEY (`chartId`,`trackId`),
+  KEY `trackId` (`trackId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -101,19 +110,21 @@ CREATE TABLE `chart_tracks` (
 -- Structure de la table `tracks`
 --
 
-CREATE TABLE `tracks` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `tracks`;
+CREATE TABLE IF NOT EXISTS `tracks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `artist` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `album` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `idRefChart` int(11) DEFAULT NULL,
   `topArtistBoolean` int(11) DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp DEFAULT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Contenu de la table `tracks`
+-- Déchargement des données de la table `tracks`
 --
 
 INSERT INTO `tracks` (`id`, `title`, `artist`, `album`, `idRefChart`, `topArtistBoolean`, `createdAt`, `updatedAt`) VALUES
@@ -170,7 +181,7 @@ INSERT INTO `tracks` (`id`, `title`, `artist`, `album`, `idRefChart`, `topArtist
 (51, 'Mafiosa (feat. Caroliina)', 'Caroliina', 'Grandestino', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
 (52, 'One Kiss (with Dua Lipa)', 'Dua Lipa', 'One Kiss (with Dua Lipa)', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
 (53, 'X', 'J Balvin', 'X', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
-(54, 'Va Bene', 'Kore', 'Va Bene (Extrait de la BOF de "Taxi 5")', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
+(54, 'Va Bene', 'Kore', 'Va Bene (Extrait de la BOF de \"Taxi 5\")', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
 (55, 'La même', 'Vianney', 'Ceinture noire', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
 (56, 'Bella ciao - HUGEL Remix', 'HUGEL', 'Bella ciao (HUGEL Remix)', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
 (57, 'FRIENDS', 'Anne-Marie', 'FRIENDS', NULL, NULL, '2018-05-23 19:08:29', '2018-05-23 19:08:29'),
@@ -204,73 +215,10 @@ INSERT INTO `tracks` (`id`, `title`, `artist`, `album`, `idRefChart`, `topArtist
 (85, 'Arrivant', 'Timal', 'Arrivant', NULL, NULL, '2018-05-23 19:08:30', '2018-05-23 19:08:30'),
 (86, 'Mad Love', 'Sean Paul', 'Mad Love', NULL, NULL, '2018-05-23 19:08:30', '2018-05-23 19:08:30'),
 (87, 'J\'souris', 'Djadja & Dinaz', 'Le revers de la médaille', NULL, NULL, '2018-05-23 19:08:30', '2018-05-23 19:08:30'),
-(88, 'Wolves', 'Selena Gomez', 'Wolves', NULL, NULL, '2018-05-23 19:08:30', '2018-05-23 19:08:30'),
-(89, 'Bandolero', 'Moha La Squale', 'Bandolero', NULL, NULL, '2018-05-25 20:28:51', '2018-05-25 20:28:51'),
-(90, 'Complètement sonné', 'KeBlack', 'Appartement 105', NULL, NULL, '2018-05-25 20:28:51', '2018-05-25 20:28:51'),
-(91, 'Paradise', 'Lefa', '3 du mat', NULL, NULL, '2018-05-25 20:28:51', '2018-05-25 20:28:51'),
-(92, 'Tierquar', 'RK', 'Tierquar', NULL, NULL, '2018-05-25 20:28:51', '2018-05-25 20:28:51');
+(88, 'Wolves', 'Selena Gomez', 'Wolves', NULL, NULL, '2018-05-23 19:08:30', '2018-05-23 19:08:30');
 
 --
--- Index pour les tables exportées
---
-
---
--- Index pour la table `albums`
---
-ALTER TABLE `albums`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `artists`
---
-ALTER TABLE `artists`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `charts`
---
-ALTER TABLE `charts`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `chart_tracks`
---
-ALTER TABLE `chart_tracks`
-  ADD PRIMARY KEY (`chartId`,`trackId`),
-  ADD KEY `trackId` (`trackId`);
-
---
--- Index pour la table `tracks`
---
-ALTER TABLE `tracks`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT pour les tables exportées
---
-
---
--- AUTO_INCREMENT pour la table `albums`
---
-ALTER TABLE `albums`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT pour la table `artists`
---
-ALTER TABLE `artists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT pour la table `charts`
---
-ALTER TABLE `charts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT pour la table `tracks`
---
-ALTER TABLE `tracks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
---
--- Contraintes pour les tables exportées
+-- Contraintes pour les tables déchargées
 --
 
 --
@@ -279,6 +227,7 @@ ALTER TABLE `tracks`
 ALTER TABLE `chart_tracks`
   ADD CONSTRAINT `chart_tracks_ibfk_1` FOREIGN KEY (`chartId`) REFERENCES `charts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `chart_tracks_ibfk_2` FOREIGN KEY (`trackId`) REFERENCES `tracks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -8,7 +8,6 @@ module.exports = (sequelize, type) => {
     title: type.STRING,
     artist: type.STRING,
     album: type.STRING,
-    idRefChart: type.INTEGER,
     topArtistBoolean: type.INTEGER,
     createdAt: {
       type: 'TIMESTAMP',

@@ -6,7 +6,6 @@ module.exports = (sequelize, type) => {
       autoIncrement: true
     },
     name: type.STRING,
-    genre: type.STRING,
     idRefArtist: type.INTEGER,
     topAlbumBoolean: type.INTEGER,
     createdAt: {
