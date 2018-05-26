@@ -4,7 +4,7 @@ const ArtistModel = require('./models/artist');
 const ChartModel = require('./models/chart');
 const TrackModel = require('./models/track');
 
-const sequelize = new Sequelize('music_sequelize', 'root', '', {
+const sequelize = new Sequelize('music_charts', 'root', '', {
   host: 'localhost',
   dialect: 'mysql',
   pool: {
