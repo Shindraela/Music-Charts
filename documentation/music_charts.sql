@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `albums` (
   `artist` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `topAlbumBoolean` int(11) DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `artists` (
   `name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `genre` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -160,9 +160,9 @@ DROP TABLE IF EXISTS `charts`;
 CREATE TABLE IF NOT EXISTS `charts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+);
 
 -- --------------------------------------------------------
 
@@ -178,7 +178,7 @@ CREATE TABLE IF NOT EXISTS `chart_tracks` (
   `trackId` int(11) NOT NULL,
   PRIMARY KEY (`chartId`,`trackId`),
   KEY `trackId` (`trackId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+);
 
 -- --------------------------------------------------------
 
@@ -195,9 +195,9 @@ CREATE TABLE IF NOT EXISTS `tracks` (
   `topArtistBoolean` int(11) DEFAULT NULL,
   `chartBoolean` tinyint(4) DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `tracks`
@@ -254,84 +254,63 @@ INSERT INTO `tracks` (`id`, `title`, `artist`, `album`, `topArtistBoolean`, `cha
 (48, 'Snow', 'Moha La Squale', 'Bendero', NULL, 1, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (49, 'Like I Do', 'David Guetta', 'Like I Do', NULL, 1, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (50, 'Bonnie & Clyde', 'Moha La Squale', 'Bendero', NULL, 1, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
-
-
 (51, 'Him & I (with Halsey)', 'G-Eazy', 'The Beautiful and Damned', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (52, '1942', 'G-Eazy', 'Uncle Drew (Original Motion Picture Soundtrack)', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (53, 'No Limit', 'G-Eazy', 'The Beautiful and Damned', 1, 0, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
-
 (54, 'All The Stars (with SZA)', 'Kendrick Lamar', 'Black Panther: The Album', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (55, 'King\'s Dead', 'Kendrick Lamar', 'Black Panther: The Album', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (56, 'HUMBLE.', 'Kendrick Lamar', 'Damn', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
-
 (57, 'Get Lucky - Radio Edit', 'Daft Punk', 'Random Access Memories', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (58, 'One More Time', 'Daft Punk', 'Interstella 5555', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (59, 'Instant Crush', 'Daft Punk', 'Random Access Memories', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
-
 (60, 'Better Now', 'Post Malone', 'Beerbongs & Bentleys', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (61, 'Psycho (feat. Ty Dolla $ign)', 'Post Malone', 'Beerbongs & Bentleys', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (62, 'rockstar (feat. 21 Savage)', 'Post Malone', 'Beerbongs & Bentleys', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
-
 (63, 'One Kiss (with Dua Lipa)', 'Calvin Harris', NULL, 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (64, 'Feels', 'Calvin Harris', 'Funk Wav Bounces Vol. 1', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (65, 'This Is What You Came For', 'Calvin Harris', NULL, 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
-
 (66, 'This Is America', 'Childish Gambino', NULL, 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (67, 'Redbone', 'Childish Gambino', 'Awaken, My Love!', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (68, 'V.3005', 'Childish Gambino', 'Because the Internet', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
-
 (69, 'Nice For What', 'Drake', NULL, 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (70, 'God\'s Plan', 'Drake', 'Scary Hours', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (71, 'Look Alive (feat. Drake)', 'Drake', 'Simi', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
-
 (72, 'X', 'Nicky Jam', NULL, 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (73, 'Bella y Sensual', 'Nicky Jam', 'Golden', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (74, 'El Amante', 'Nicky Jam', 'Fénix', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
-
 (75, 'X (with 2 Chainz & Saudi', 'ScHoolboy Q', '', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (76, 'Collard Greens', 'ScHoolboy Q', '', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (77, 'THat Part', 'ScHoolboy Q', '', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
-
 (78, 'FAKE LOVE', 'BTS', 'Love Yourself: Tear', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (79, 'The Truth Untold', 'BTS', NULL, 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (80, 'Airplane pt.2', 'BTS', NULL, 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
-
 (81, 'River (feat. Ed Sheeran)', 'Eminem', 'Revival', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (82, 'Lose Yourself - From "8 Mile" Soundtrack', 'Eminem', '8 Mile', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (83, 'Till I Collapse', 'Eminem', 'Real Steel', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
-
 (84, 'Call Out My Name', 'The Weeknd', 'My Dear Melancholy,', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (85, 'Wasted Times', 'The Weeknd', 'My Dear Melancholy,', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (86, 'Try Me', 'The Weeknd', 'My Dear Melancholy,', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
-
 (87, 'Flames', 'David Guetta', NULL, 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (88, 'Like I Do', 'David Guetta', NULL, 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (89, 'Mad Love', 'David Guetta', NULL, 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
-
 (90, 'Les Sardines', 'Patrick Sébastien', 'Pochette surprise', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (91, 'Joyeux Anniversaire', 'Patrick Sébastien', 'Magick Sébastien', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (92, 'Tourner les serviettes', 'Patrick Sébastien', 'Magick Sébastien', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
-
 (93, 'Walk It Talk It', 'Migos', 'Culture II', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (94, 'Stir Fry', 'Migos', 'Culture II', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (95, 'Drip (feat. Migos)', 'Migos', 'Invasion of Privacy', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
-
 (96, 'Relationship (feat. Future)', 'Young Thug', 'Beautiful Thugger Girls', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (97, 'Anybody (feat. Nicki Minaj)', 'Young Thug', 'Hear No Evil', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (98, 'pick up the phone', 'Young Thug', 'Birds in the Trap Sing McKnight', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
-
 (99, 'In My Blood', 'Shawn Mendes', 'Shawn Mendes', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (100, 'Youth feat. Khalid', 'Shawn Mendes', 'Shawn Mendes', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (101, 'Lost In Japan', 'Shawn Mendes', 'Shawn Mendes', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
-
 (102, 'I Miss You (feat. Julia Michaels)', 'Clean Bandit', NULL, 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (103, 'Symphony (feat. Zara Larsson)', 'Clean Bandit', 'So Good', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (104, 'Solo (feat. Demi Lovato)', 'Clean Bandit', NULL, 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
-
 (105, 'Back To You', 'Selena Gomez', '13 Reasons Why', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (106, 'Wolves', 'Selena Gomez', NULL, 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (107, 'It Ain\'t Me (with Selena Gomez)', 'Selena Gomez', 'Stargazing - EP', 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
-
 (108, 'Nevermind', 'Dennis Lloyd', NULL, 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (109, 'Leftovers', 'Dennis Lloyd', NULL, 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27'),
 (110, 'Nevermind (Alright)', 'Dennis Lloyd', NULL, 1, NULL, '2018-05-27 17:09:27', '2018-05-27 17:09:27');
