@@ -26,9 +26,8 @@ let deezerChartId = '1109890291';
 let deezerArtistId = '810507';
 let deezerAlbumId = '53314212';
 
-let accessToken = "";
 
-// Retrieve an access token
+/** This is the Spotify Generator Token. */
 spotifyApi.clientCredentialsGrant().then(
   function(data) {
     console.log('The access token expires in ' + data.body['expires_in']);
@@ -50,7 +49,10 @@ spotifyApi.clientCredentialsGrant().then(
 );
 
 
-// API ENDPOINTS :
+/**
+ * Represents Spotify data.
+ * @constructor
+ */
 function sendSpotifyData() {
   // send Spotify TOP FR into DB
   spotifyApi.getFrenchChart(spotifyUserChart, spotifyChartId)
@@ -126,7 +128,10 @@ function sendSpotifyData() {
     });
 }
 
-
+/**
+ * Represents Deezer data.
+ * @constructor
+ */
 function sendDeezerData() {
   // send Deezer TOP FR into DB
   dz.getFrenchChart(deezerChartId).then(function(album) {
@@ -176,15 +181,16 @@ function sendDeezerData() {
 }
 
 
-// root
+/** This is a description of the default root. */
 app.get('/', (req, res) => {
   res.send('Hello there, go to /charts if you want to check the current french top');
 });
 
+
 /******************************************************/
 /******************** CHARTS ROUTES *******************/
 /******************************************************/
-// get all charts where date = :date
+/** This is a description of the charts by date root. */
 app.get('/charts/:date', (req, res) => {
   Track.findAll({
     where: {
@@ -222,7 +228,7 @@ app.get('/charts/:date', (req, res) => {
   // }).then(charts => res.json(charts));
 });
 
-// get all charts by track
+/** This is a description of the charts by track root. */
 app.get('/charts', (req, res) => {
   Chart.findAll({
     include: [
@@ -237,7 +243,7 @@ app.get('/charts', (req, res) => {
   // .then(charts => res.json(charts));
 });
 
-// create a chart
+/** This is a description of the creation of charts root. */
 app.get('/charts', (req, res) => {
   const body = req.body;
   // either find a track with title or create a new one
@@ -249,7 +255,7 @@ app.get('/charts', (req, res) => {
 /******************************************************/
 /******************** ARTIST ROUTES *******************/
 /******************************************************/
-// get all artists where name = :name
+/** This is a description of the artists by name root. */
 app.get('/artists/:name', (req, res) => {
   Artist.findAll({
     where: {
@@ -258,7 +264,7 @@ app.get('/artists/:name', (req, res) => {
   }).then(artists => res.json(artists));
 });
 
-// get TOP 3 artist albums where name = :name
+/** This is a description of the top 3 artist albums root. */
 app.get('/artists/:name/albums', (req, res) => {
   Album.findAll({
     where: {
@@ -268,7 +274,7 @@ app.get('/artists/:name/albums', (req, res) => {
   }).then(albums => res.json(albums));
 });
 
-// get TOP 3 artist tracks where name = :name
+/** This is a description of the top 3 artist tracks root. */
 app.get('/artists/:name/tracks', (req, res) => {
   Track.findAll({
     where: {
@@ -282,7 +288,7 @@ app.get('/artists/:name/tracks', (req, res) => {
 /******************************************************/
 /******************** TRACK ROUTES ********************/
 /******************************************************/
-// get all tracks
+/** This is a description of the all tracks root. */
 app.get('/tracks', (req, res) => {
   Track.findAll().then(tracks => res.json(tracks));
 });
