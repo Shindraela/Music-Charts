@@ -5,7 +5,6 @@ module.exports = (sequelize, type) => {
       primaryKey: true,
       autoIncrement: true
     },
-    genre: type.STRING,
     createdAt: {
       type: 'TIMESTAMP',
       defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
@@ -14,7 +13,7 @@ module.exports = (sequelize, type) => {
     updatedAt: {
       type: 'TIMESTAMP',
       defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
-      allowNull: false
+      allowNull: true
     }
   });
 }

@@ -1,3 +1,5 @@
+const Sequelize = require('sequelize');
+const sequelizeOp = Sequelize.Op;
 const express = require('express');
 const bodyParser = require('body-parser');
 const SpotifyWebApi = require('spotify-web-api-node');
@@ -11,7 +13,7 @@ const spotifyApi = new SpotifyWebApi({
   clientSecret: 'f5890c3bd60f49d095004aa9b6a1ed89'
 });
 
-// dependencies
+// models dependencies
 const { Album, Artist, Chart, Track } = require('./sequelize');
 
 /* Top FR Spotify IDs */
@@ -36,8 +38,8 @@ spotifyApi.clientCredentialsGrant().then(
     spotifyApi.setAccessToken(data.body['access_token']);
 
     // Then, call APIs for sending data in DB
-    sendSpotifyData();
-    sendDeezerData();
+    // sendSpotifyData();
+    // sendDeezerData();
   },
   function(err) {
     console.log(
@@ -97,6 +99,11 @@ function sendSpotifyData() {
                       album: trackAlbum
                     }
                   })
+                  Chart.Create({
+                    where: {
+                      
+                    }
+                  });
                   // .then(function(result) {
                   //   var track = result[0], // the instance of the track
                   //     created = result[1]; // boolean stating if it was created or not
@@ -152,14 +159,14 @@ function sendDeezerData() {
           }
 
           /* save into db */
-          Track.findOrCreate({
+          Track.create({
             where: {
               title: trackTitle,
               artist: trackArtist,
-              album: trackAlbum
+              album: trackAlbum,
+              chartBoolean: '1'
             }
           });
-
         });
       }
     }
@@ -171,49 +178,113 @@ function sendDeezerData() {
 
 // root
 app.get('/', (req, res) => {
-  console.log("Salut !");
-  res.send('Hello World !');
+  res.send('Hello there, go to /charts if you want to check the current french top');
 });
 
-// get all artists
-app.get('/artists/:name', (req, res) => {
-  Artist.findAll().then(artists => res.json(artists));
+/******************************************************/
+/******************** CHARTS ROUTES *******************/
+/******************************************************/
+// get all charts where date = :date
+app.get('/charts/:date', (req, res) => {
+  Track.findAll({
+    where: {
+      createdAt: {
+        [sequelizeOp.like]: '%' + req.params.date + '%',
+      },
+      chartBoolean: '1'
+    }
+  }).then(charts => res.json(charts));
+
+  // Track.findAll({
+  //   where: {
+  //     createdAt: {
+  //       [sequelizeOp.like]: '%' + req.params.date + '%'
+  //     }
+  //   }
+  // }).then(charts => {
+  //     if(charts.length == 0) {
+  //       // Return today's date and time
+  //       var currentTime = new Date();
+  //       // Returns the month (from 0 to 11)
+  //       var month = currentTime.getMonth() + 1;
+  //       // Returns the day of the month (from 1 to 31)
+  //       var day = currentTime.getDate();
+  //       // Returns the year (four digits)
+  //       var year = currentTime.getFullYear();
+  //       Track.findAll({
+  //         where: {
+  //           createdAt: {
+  //             [sequelizeOp.like]: '%' + year + '-' + '0'+month + '-' + day + '%'
+  //           }
+  //         }
+  //       }).then(tracks => res.json(tracks));
+  //     };
+  // }).then(charts => res.json(charts));
 });
 
-// get all tracks
-app.get('/api/tracks', (req, res) => {
-  Track.findAll().then(tracks => res.json(tracks));
-});
-
-// get all albums
-app.get('/artists/:name/albums', (req, res) => {
-  Album.findAll().then(albums => res.json(albums));
+// get all charts by track
+app.get('/charts', (req, res) => {
+  Chart.findAll({
+    include: [
+      { model: Track }
+    ]
+  })
+  .then(charts => {
+    constOj = charts.map(chart => {
+      res.json(resObj);
+    });
+  });
+  // .then(charts => res.json(charts));
 });
 
 // create a chart
-app.post('/api/charts', (req, res) => {
+app.get('/charts', (req, res) => {
   const body = req.body;
-  // either find a track with name or create a new one
-  const tracks = body.tracks.map(track => Track.findOrCreate({ where: { name: track.name }, defaults: { name: track.name }})
+  // either find a track with title or create a new one
+  const tracks = body.tracks.map(track => Track.findOrCreate({ where: { title: track.title }, defaults: { title: track.title }})
                                       .spread((track, created) => track));
 });
 
-// create a chart by genre
-app.post('/api/charts/:genre', (req, res) => {
-  const body = req.body;
-  // either find a tag with name or create a new one
-  const tracks = body.tracks.map(track => Track.findOrCreate({ where: { name: track.name }, defaults: { name: track.name }})
-                                      .spread((track, created) => track));
+
+/******************************************************/
+/******************** ARTIST ROUTES *******************/
+/******************************************************/
+// get all artists where name = :name
+app.get('/artists/:name', (req, res) => {
+  Artist.findAll({
+    where: {
+      name: req.params.name
+    }
+  }).then(artists => res.json(artists));
 });
 
-// find charts by track
-app.get('/api/charts/:track/track', (req, res) => {
-  Chart.findAll({
-    include: [
-      { model: Track, where: { name: req.params.track } }
-    ]
-  })
-  .then(charts => res.json(charts));
+// get TOP 3 artist albums where name = :name
+app.get('/artists/:name/albums', (req, res) => {
+  Album.findAll({
+    where: {
+      artist: req.params.name,
+      topAlbumBoolean: '1'
+    }
+  }).then(albums => res.json(albums));
+});
+
+// get TOP 3 artist tracks where name = :name
+app.get('/artists/:name/tracks', (req, res) => {
+  Track.findAll({
+    where: {
+      artist: req.params.name,
+      topArtistBoolean: '1'
+    }
+  }).then(tracks => res.json(tracks));
+});
+
+
+/******************************************************/
+/******************** TRACK ROUTES ********************/
+/******************************************************/
+// get all tracks
+app.get('/tracks', (req, res) => {
+  Track.findAll().then(tracks => res.json(tracks));
 });
 
 

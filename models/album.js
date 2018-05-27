@@ -6,7 +6,7 @@ module.exports = (sequelize, type) => {
       autoIncrement: true
     },
     name: type.STRING,
-    idRefArtist: type.INTEGER,
+    artist: type.STRING,
     topAlbumBoolean: type.INTEGER,
     createdAt: {
       type: 'TIMESTAMP',
@@ -16,7 +16,7 @@ module.exports = (sequelize, type) => {
     updatedAt: {
       type: 'TIMESTAMP',
       defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
-      allowNull: false
+      allowNull: true
     }
 });
 }

@@ -8,7 +8,7 @@
     "deezer-node-api": "^0.2.2",
     "express": "^4.16.3",
     "mysql2": "^1.5.3",
-    "sequelize": "^4.37.8",
+    "sequelize": "^4.37.10",
     "spotify-web-api-node": "^3.1.1"
   },
   "devDependencies": {},

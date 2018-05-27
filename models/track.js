@@ -9,6 +9,7 @@ module.exports = (sequelize, type) => {
     artist: type.STRING,
     album: type.STRING,
     topArtistBoolean: type.INTEGER,
+    chartBoolean: type.INTEGER,
     createdAt: {
       type: 'TIMESTAMP',
       defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
@@ -17,7 +18,7 @@ module.exports = (sequelize, type) => {
     updatedAt: {
       type: 'TIMESTAMP',
       defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
-      allowNull: false
+      allowNull: true
     }
   });
 }
