@@ -13,13 +13,15 @@ To run the project, first "npm install", then go into the folder and run "node i
 Music-Charts is build with an object-oriented code, Sequelize translates it into a SQL dialect. There are several endpoints :
 - /charts/:date : get the chart (TOP 50) by date.
 - /artists/:name : get an artist by name.
+- /artists : get all artists.
 - /artists/:name/albums : get TOP 3 albums of an artist.
 - /artists/:name/tracks : get TOP 3 tracks of an artist.
+- /albums : get all albums.
 - /tracks : get all tracks.
 
 The API uses two third-party APIs : Spotify API, Deezer API and Soundcloud API. Although, just the Deezer API is used because
 of incompatibilities with Soundcloud and Spotify.
-The API uses deezer-node-api and spotify-web-api-node : add specific functions for getting Deezer and Spotify French Top Charts.
+The API uses deezer-node-api and spotify-web-api-node : add specific functions for getting Deezer and Spotify French Top Charts (Deezer.prototype.getFrenchChart() and Spotify.getFrenchChart()).
 
 ## Authors
 **Farooq Asmaa**

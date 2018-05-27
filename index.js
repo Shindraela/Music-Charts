@@ -183,7 +183,9 @@ function sendDeezerData() {
 
 /** This is a description of the default root. */
 app.get('/', (req, res) => {
-  res.send('Hello there, go to /charts if you want to check the current french top');
+  res.send('Hello ! Here are the endpoints :' + '<br/><br/>' + '/charts/:date : get the chart (TOP 50) by date.' + '<br/><br/>' + '/artists/:name : get an artist by name.'
+    + '<br/><br/>' + '/artists : get all artists.' + '<br/><br/>' + '/artists/:name/albums : get TOP 3 albums of an artist.' + '<br/><br/>' + '/artists/:name/tracks : get TOP 3 tracks of an artist.'
+    + '<br/><br/>' + '/albums : get all albums.' + '<br/><br/>' + '/tracks : get all tracks.');
 });
 
 
@@ -255,13 +257,28 @@ app.get('/charts', (req, res) => {
 /******************************************************/
 /******************** ARTIST ROUTES *******************/
 /******************************************************/
+/** This is a description of getting all the artists. */
+app.get('/artists', (req, res) => {
+  Artist.findAll().then(artists => res.json(artists));
+});
+
 /** This is a description of the artists by name root. */
 app.get('/artists/:name', (req, res) => {
+  // Artist.findAll({
+  //   where: {
+  //     name: req.params.name
+  //   }
+  // }).then(artists => res.json(artists));
   Artist.findAll({
     where: {
       name: req.params.name
     }
-  }).then(artists => res.json(artists));
+  }).then(artists => {
+    res.json(artists);
+  })
+  .catch(err => {
+    res.send("Sorry, we doesn't have this artist in our database.");
+  });
 });
 
 /** This is a description of the top 3 artist albums root. */
@@ -291,6 +308,11 @@ app.get('/artists/:name/tracks', (req, res) => {
 /** This is a description of the all tracks root. */
 app.get('/tracks', (req, res) => {
   Track.findAll().then(tracks => res.json(tracks));
+});
+
+/** This is a description of the all albums root. */
+app.get('/albums', (req, res) => {
+  Track.findAll().then(albums => res.json(albums));
 });
 
 
