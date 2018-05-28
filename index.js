@@ -26,27 +26,55 @@ let deezerChartId = '1109890291';
 let deezerArtistId = '810507';
 let deezerAlbumId = '53314212';
 
+function init() {
+  // Return today's date and time
+  var currentTime = new Date();
+  // Returns the month (from 0 to 11)
+  var month = currentTime.getMonth() + 1;
+  // Returns the day of the month (from 1 to 31)
+  var day = currentTime.getDate();
+  // Returns the year (four digits)
+  var year = currentTime.getFullYear();
+
+  Track.findAll({
+    where: {
+      createdAt: {
+        [sequelizeOp.like]: '%' + year + '-' + month + '-' + day + '%',
+      },
+      chartBoolean: '1'
+    }
+  })
+  .then(charts => {
+    if(charts != 0) {
+       res.json(charts);
+    } else {
+      // sendDeezerData();
+    }
+  });
+}
+
+init();
 
 /** This is the Spotify Generator Token. */
-spotifyApi.clientCredentialsGrant().then(
-  function(data) {
-    console.log('The access token expires in ' + data.body['expires_in']);
-    console.log('The access token is ' + data.body['access_token']);
+// spotifyApi.clientCredentialsGrant().then(
+//   function(data) {
+//     console.log('The access token expires in ' + data.body['expires_in']);
+//     console.log('The access token is ' + data.body['access_token']);
 
-    // Save the access token so that it's used in future calls
-    spotifyApi.setAccessToken(data.body['access_token']);
+//     // Save the access token so that it's used in future calls
+//     spotifyApi.setAccessToken(data.body['access_token']);
 
-    // Then, call APIs for sending data in DB
-    // sendSpotifyData();
-    // sendDeezerData();
-  },
-  function(err) {
-    console.log(
-      'Something went wrong when retrieving an access token',
-      err.message
-    );
-  }
-);
+//     // Then, call APIs for sending data in DB
+//     sendSpotifyData();
+//     sendDeezerData();
+//   },
+//   function(err) {
+//     console.log(
+//       'Something went wrong when retrieving an access token',
+//       err.message
+//     );
+//   }
+// );
 
 
 /**
@@ -164,13 +192,19 @@ function sendDeezerData() {
           }
 
           /* save into db */
-          Track.create({
+          Track.findOrCreate({
             where: {
               title: trackTitle,
               artist: trackArtist,
               album: trackAlbum,
               chartBoolean: '1'
             }
+          })
+          .spread((track, created) => {
+            console.log(track.get({
+              plain: true
+            }));
+            console.log(created);
           });
         });
       }
