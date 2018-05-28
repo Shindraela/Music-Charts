@@ -201,33 +201,14 @@ app.get('/charts/:date', (req, res) => {
       },
       chartBoolean: '1'
     }
-  }).then(charts => res.json(charts));
-
-  // Track.findAll({
-  //   where: {
-  //     createdAt: {
-  //       [sequelizeOp.like]: '%' + req.params.date + '%'
-  //     }
-  //   }
-  // }).then(charts => {
-  //     if(charts.length == 0) {
-  //       // Return today's date and time
-  //       var currentTime = new Date();
-  //       // Returns the month (from 0 to 11)
-  //       var month = currentTime.getMonth() + 1;
-  //       // Returns the day of the month (from 1 to 31)
-  //       var day = currentTime.getDate();
-  //       // Returns the year (four digits)
-  //       var year = currentTime.getFullYear();
-  //       Track.findAll({
-  //         where: {
-  //           createdAt: {
-  //             [sequelizeOp.like]: '%' + year + '-' + '0'+month + '-' + day + '%'
-  //           }
-  //         }
-  //       }).then(tracks => res.json(tracks));
-  //     };
-  // }).then(charts => res.json(charts));
+  })
+  .then(charts => {
+    if(charts != 0) {
+       res.json(charts);
+    } else {
+      res.json(['empty']);
+    }
+  });
 });
 
 /** This is a description of the charts by track root. */
@@ -238,9 +219,11 @@ app.get('/charts', (req, res) => {
     ]
   })
   .then(charts => {
-    constOj = charts.map(chart => {
-      res.json(resObj);
-    });
+    if(charts != 0) {
+       res.json(charts);
+    } else {
+      res.json(['empty_list_charts']);
+    }
   });
   // .then(charts => res.json(charts));
 });
@@ -259,25 +242,29 @@ app.get('/charts', (req, res) => {
 /******************************************************/
 /** This is a description of getting all the artists. */
 app.get('/artists', (req, res) => {
-  Artist.findAll().then(artists => res.json(artists));
+  Artist.findAll()
+  .then(artists => {
+    if(artists != 0) {
+       res.json(artists);
+    } else {
+      res.json(['empty_list_artists']);
+    }
+  });
 });
 
 /** This is a description of the artists by name root. */
 app.get('/artists/:name', (req, res) => {
-  // Artist.findAll({
-  //   where: {
-  //     name: req.params.name
-  //   }
-  // }).then(artists => res.json(artists));
   Artist.findAll({
     where: {
       name: req.params.name
     }
-  }).then(artists => {
-    res.json(artists);
   })
-  .catch(err => {
-    res.send("Sorry, we doesn't have this artist in our database.");
+  .then(artists => {
+    if(artists != 0) {
+       res.json(artists);
+    } else {
+      res.json(['empty']);
+    }
   });
 });
 
@@ -288,7 +275,14 @@ app.get('/artists/:name/albums', (req, res) => {
       artist: req.params.name,
       topAlbumBoolean: '1'
     }
-  }).then(albums => res.json(albums));
+  })
+  .then(albums => {
+    if(albums != 0) {
+       res.json(albums);
+    } else {
+      res.json(['empty_list_artist_albums']);
+    }
+  });
 });
 
 /** This is a description of the top 3 artist tracks root. */
@@ -298,7 +292,14 @@ app.get('/artists/:name/tracks', (req, res) => {
       artist: req.params.name,
       topArtistBoolean: '1'
     }
-  }).then(tracks => res.json(tracks));
+  })
+  .then(tracks => {
+    if(tracks != 0) {
+       res.json(tracks);
+    } else {
+      res.json(['empty_list_artist_tracks']);
+    }
+  });
 });
 
 
@@ -307,12 +308,29 @@ app.get('/artists/:name/tracks', (req, res) => {
 /******************************************************/
 /** This is a description of the all tracks root. */
 app.get('/tracks', (req, res) => {
-  Track.findAll().then(tracks => res.json(tracks));
+  Track.findAll()
+  .then(tracks => {
+    if(tracks != 0) {
+       res.json(tracks);
+    } else {
+      res.json(['empty_list_tracks']);
+    }
+  });
 });
 
+/******************************************************/
+/******************** ALBUM ROUTES ********************/
+/******************************************************/
 /** This is a description of the all albums root. */
 app.get('/albums', (req, res) => {
-  Track.findAll().then(albums => res.json(albums));
+  Album.findAll()
+  .then(albums => {
+    if(albums != 0) {
+       res.json(albums);
+    } else {
+      res.json(['empty_list_albums']);
+    }
+  });
 });
 
 
