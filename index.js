@@ -232,6 +232,9 @@ app.use(function (req, res, next) {
   // Set Content-Type
   res.setHeader('Content-Type', 'application/json');
 
+  // Set Cache-Control
+  res.setHeader('Cache-Control', 'no-cache');
+
   // Pass to next layer of middleware
   next();
 });
