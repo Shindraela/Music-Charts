@@ -217,9 +217,15 @@ function sendDeezerData() {
 
 /** This is a description of the default root. */
 app.get('/', (req, res) => {
-  res.send('Hello ! Here are the endpoints :' + '<br/><br/>' + '/charts/:date : get the chart (TOP 50) by date.' + '<br/><br/>' + '/artists/:name : get an artist by name.'
-    + '<br/><br/>' + '/artists : get all artists.' + '<br/><br/>' + '/artists/:name/albums : get TOP 3 albums of an artist.' + '<br/><br/>' + '/artists/:name/tracks : get TOP 3 tracks of an artist.'
-    + '<br/><br/>' + '/albums : get all albums.' + '<br/><br/>' + '/tracks : get all tracks.');
+  res.json([
+    {'Hello ! Here are the endpoints :': '/charts/:date : get the chart (TOP 50) by date.'},
+    {'/artists/:name :': ' get an artist by name.'},
+    {'/artists :': 'get all artists.'},
+    {'/artists/:name/albums:': 'get TOP 3 albums of an artist.'},
+    {'/artists/:name/tracks:': 'get TOP 3 tracks of an artist.' },
+    {'/albums:': 'get all albums.'},
+    {'/tracks:': 'get all tracks.'}
+  ]);
 });
 
 
